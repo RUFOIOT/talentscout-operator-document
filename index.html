@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Claude Co-Work AI Operator Cohort — Program Document</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --ink: #111118;
+    --ink2: #333344;
+    --muted: #666680;
+    --border: #e0e0ee;
+    --bg: #fafafa;
+    --white: #ffffff;
+    --accent: #4C44D4;
+    --accent-bg: #f5f4ff;
+    --accent-border: #c9c6f5;
+    --accent2: #00956B;
+    --accent2-bg: #f0fdf8;
+    --accent2-border: #b6e8d8;
+    --gold: #B07D00;
+    --gold-bg: #fffbea;
+    --gold-border: #eedfa0;
+    --red: #c0392b;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--ink); font-family:'Inter',sans-serif; font-size:15px; line-height:1.7; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+
+  .doc-wrap { max-width:860px; margin:0 auto; padding:60px 60px 120px; background:var(--white); min-height:100vh; }
+
+  /* HEADER */
+  .doc-header { border-bottom:2px solid var(--ink); padding-bottom:40px; margin-bottom:48px; }
+  .doc-header-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:32px; }
+  .org-mark { font-size:12px; font-weight:700; color:var(--muted); letter-spacing:1.5px; text-transform:uppercase; }
+  .doc-version { font-size:12px; font-weight:700; color:var(--accent); letter-spacing:1px; text-transform:uppercase; background:var(--accent-bg); border:1px solid var(--accent-border); padding:4px 12px; border-radius:4px; }
+  .doc-title { font-family:'Playfair Display',serif; font-size:38px; font-weight:700; line-height:1.15; color:var(--ink); margin-bottom:14px; letter-spacing:-0.5px; }
+  .doc-subtitle { font-size:16px; color:var(--muted); line-height:1.5; margin-bottom:28px; }
+  .doc-meta-row { display:flex; gap:32px; flex-wrap:wrap; }
+  .doc-meta-item { display:flex; flex-direction:column; gap:3px; }
+  .doc-meta-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--muted); }
+  .doc-meta-value { font-size:14px; font-weight:600; color:var(--ink); }
+
+  /* TOC */
+  .toc { background:#f7f7fb; border:1px solid var(--border); border-radius:8px; padding:28px 32px; margin-bottom:56px; }
+  .toc-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); margin-bottom:18px; }
+  .toc-list { display:flex; flex-direction:column; gap:4px; }
+  .toc-item { display:flex; gap:10px; font-size:13px; padding:4px 0; color:var(--ink2); border-bottom:1px dotted var(--border); align-items:baseline; }
+  .toc-num { font-size:11px; font-weight:700; color:var(--muted); min-width:24px; flex-shrink:0; }
+  .toc-text { flex:1; font-weight:500; }
+
+  /* SECTIONS */
+  .section { margin-bottom:56px; }
+  .section-header { display:flex; align-items:baseline; gap:14px; margin-bottom:20px; padding-bottom:10px; border-bottom:1px solid var(--border); }
+  .section-num { font-size:12px; font-weight:800; color:var(--muted); letter-spacing:1px; min-width:28px; }
+  .section-title { font-size:22px; font-weight:700; color:var(--ink); line-height:1.2; }
+
+  h3 { font-size:16px; font-weight:700; color:var(--ink); margin:28px 0 12px; padding-left:12px; border-left:3px solid var(--accent); }
+  h4 { font-size:14px; font-weight:700; color:var(--ink2); margin:20px 0 8px; }
+  p { margin-bottom:14px; color:var(--ink2); line-height:1.75; }
+  ul, ol { margin:0 0 14px 22px; color:var(--ink2); }
+  li { margin-bottom:5px; line-height:1.65; }
+  li strong { color:var(--ink); }
+
+  /* CALLOUTS */
+  .callout { padding:18px 20px; border-radius:6px; margin:20px 0; font-size:14px; }
+  .callout-blue { background:var(--accent-bg); border-left:4px solid var(--accent); }
+  .callout-green { background:var(--accent2-bg); border-left:4px solid var(--accent2); }
+  .callout-gold { background:var(--gold-bg); border-left:4px solid var(--gold); }
+  .callout strong { color:var(--ink); }
+  .callout p { margin:0; color:var(--ink2); }
+
+  /* STAT ROW */
+  .stat-row { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:20px 0; }
+  .stat-box { background:var(--accent-bg); border:1px solid var(--accent-border); border-radius:8px; padding:16px; text-align:center; }
+  .stat-num { font-size:32px; font-weight:800; color:var(--accent); line-height:1; margin-bottom:4px; }
+  .stat-label { font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; }
+
+  /* WEEK CARDS */
+  .week-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:20px 0; }
+  .week-card { border:1px solid var(--border); border-radius:10px; padding:22px; background:var(--white); position:relative; overflow:hidden; }
+  .week-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; }
+  .week-card:nth-child(1)::before { background:var(--accent2); }
+  .week-card:nth-child(2)::before { background:var(--accent); }
+  .week-card:nth-child(3)::before { background:var(--gold); }
+  .week-card:nth-child(4)::before { background:var(--red); }
+  .wc-num { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; }
+  .week-card:nth-child(1) .wc-num { color:var(--accent2); }
+  .week-card:nth-child(2) .wc-num { color:var(--accent); }
+  .week-card:nth-child(3) .wc-num { color:var(--gold); }
+  .week-card:nth-child(4) .wc-num { color:var(--red); }
+  .wc-title { font-size:15px; font-weight:700; margin-bottom:10px; color:var(--ink); }
+  .wc-items { list-style:none; margin:0 0 12px; padding:0; display:flex; flex-direction:column; gap:5px; }
+  .wc-items li { font-size:13px; color:var(--ink2); padding-left:14px; position:relative; line-height:1.45; }
+  .wc-items li::before { content:'›'; position:absolute; left:0; color:var(--muted); }
+  .wc-deliverable { margin-top:12px; padding-top:10px; border-top:1px solid var(--border); font-size:12px; font-weight:700; }
+  .week-card:nth-child(1) .wc-deliverable { color:var(--accent2); }
+  .week-card:nth-child(2) .wc-deliverable { color:var(--accent); }
+  .week-card:nth-child(3) .wc-deliverable { color:var(--gold); }
+  .week-card:nth-child(4) .wc-deliverable { color:var(--red); }
+  .new-badge { display:inline-block; padding:2px 7px; background:var(--gold-bg); border:1px solid var(--gold-border); border-radius:4px; font-size:10px; font-weight:700; color:var(--gold); letter-spacing:0.3px; margin-top:5px; margin-right:3px; }
+
+  /* DELIVERABLE TABLE */
+  .deliverables-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:16px 0; }
+  .dg-item { display:flex; align-items:flex-start; gap:10px; padding:12px 14px; background:#f7f7fb; border:1px solid var(--border); border-radius:8px; font-size:13px; }
+  .dg-check { color:var(--accent2); font-size:15px; flex-shrink:0; }
+  .dg-text { color:var(--ink2); line-height:1.45; }
+
+  /* SKILL CHIPS */
+  .chip-grid { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
+  .chip { padding:5px 12px; background:var(--accent-bg); border:1px solid var(--accent-border); border-radius:6px; font-size:12px; font-weight:600; color:var(--accent); }
+  .chip-green { background:var(--accent2-bg); border-color:var(--accent2-border); color:var(--accent2); }
+
+  /* STACK TABLE */
+  .stack-table { width:100%; border-collapse:collapse; margin:16px 0; font-size:13px; }
+  .stack-table th { background:#f0f0f8; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--muted); padding:10px 14px; text-align:left; border-bottom:2px solid var(--border); }
+  .stack-table td { padding:12px 14px; border-bottom:1px solid var(--border); color:var(--ink2); vertical-align:top; }
+  .stack-table tr:hover td { background:#fafafa; }
+  .badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; }
+  .badge-core { background:var(--accent-bg); color:var(--accent); }
+  .badge-week4 { background:var(--gold-bg); color:var(--gold); }
+  .badge-mcp { background:var(--accent2-bg); color:var(--accent2); }
+
+  /* SHOW & TELL */
+  .snt-phases { display:flex; flex-direction:column; gap:12px; margin:16px 0; }
+  .snt-phase { display:flex; gap:16px; align-items:flex-start; padding:14px 16px; background:#f7f7fb; border:1px solid var(--border); border-radius:8px; }
+  .snt-time { font-size:11px; font-weight:700; color:var(--accent); background:var(--accent-bg); border:1px solid var(--accent-border); border-radius:4px; padding:3px 10px; white-space:nowrap; flex-shrink:0; font-family:monospace; }
+  .snt-phase-title { font-size:13px; font-weight:700; margin-bottom:3px; }
+  .snt-phase-desc { font-size:12px; color:var(--muted); line-height:1.5; }
+
+  /* WHO TABLE */
+  .who-table { width:100%; border-collapse:collapse; margin:16px 0; font-size:13px; }
+  .who-table th { background:#f0f0f8; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--muted); padding:10px 14px; text-align:left; border-bottom:2px solid var(--border); }
+  .who-table td { padding:12px 14px; border-bottom:1px solid var(--border); color:var(--ink2); vertical-align:top; line-height:1.5; }
+
+  /* FLYWHEEL */
+  .flywheel-row { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:12px; margin:16px 0; }
+  .fw-card { border:1px solid var(--border); border-radius:8px; padding:16px; text-align:center; font-size:13px; }
+  .fw-emoji { font-size:24px; display:block; margin-bottom:6px; }
+  .fw-title { font-weight:700; color:var(--ink); margin-bottom:4px; }
+  .fw-desc { font-size:12px; color:var(--muted); line-height:1.4; }
+
+  /* SIGNATURE */
+  .doc-footer { margin-top:60px; padding-top:24px; border-top:1px solid var(--border); font-size:12px; color:var(--muted); display:flex; justify-content:space-between; align-items:center; }
+
+  @media (max-width:700px) {
+    .doc-wrap { padding:32px 20px 80px; }
+    .week-grid,.stat-row,.deliverables-grid,.flywheel-row { grid-template-columns:1fr; }
+    .doc-meta-row { flex-direction:column; }
+  }
+  @media print {
+    body { font-size:13px; }
+    .doc-wrap { padding:32px 40px; }
+    .week-card,.snt-phase,.dg-item { break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="doc-wrap">
+
+  <!-- HEADER -->
+  <div class="doc-header">
+    <div class="doc-header-top">
+      <div class="org-mark">Talent Scout × Claude Co-Work</div>
+      <div class="doc-version">Cohort 1 · Program Document</div>
+    </div>
+    <h1 class="doc-title">The AI Operator Cohort —<br/>Program Design &amp; Approval Document</h1>
+    <p class="doc-subtitle">A single, focused 4-week program. The complete Marketing Operator Stack. Built for first cohorts, designed to run repeatedly.</p>
+    <div class="doc-meta-row">
+      <div class="doc-meta-item"><div class="doc-meta-label">Format</div><div class="doc-meta-value">Single cohort · 4 weeks</div></div>
+      <div class="doc-meta-item"><div class="doc-meta-label">Live Hours</div><div class="doc-meta-value">16 hours (8 sessions × 2h)</div></div>
+      <div class="doc-meta-item"><div class="doc-meta-label">Build Time</div><div class="doc-meta-value">85%+ hands-on</div></div>
+      <div class="doc-meta-item"><div class="doc-meta-label">Facilitator</div><div class="doc-meta-value">Felipe Salgado</div></div>
+      <div class="doc-meta-item"><div class="doc-meta-label">Platform</div><div class="doc-meta-value">Claude Co-Work</div></div>
+      <div class="doc-meta-item"><div class="doc-meta-label">Status</div><div class="doc-meta-value">Ready for Cohort 1</div></div>
+    </div>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">Table of Contents</div>
+    <div class="toc-list">
+      <div class="toc-item"><div class="toc-num">01</div><div class="toc-text">Program Overview &amp; Philosophy</div></div>
+      <div class="toc-item"><div class="toc-num">02</div><div class="toc-text">4-Week Curriculum</div></div>
+      <div class="toc-item"><div class="toc-num">03</div><div class="toc-text">Participant Deliverables</div></div>
+      <div class="toc-item"><div class="toc-num">04</div><div class="toc-text">The Curated Stack</div></div>
+      <div class="toc-item"><div class="toc-num">05</div><div class="toc-text">Show &amp; Tell — Week 4 Demo</div></div>
+      <div class="toc-item"><div class="toc-num">06</div><div class="toc-text">Who This Is For</div></div>
+      <div class="toc-item"><div class="toc-num">07</div><div class="toc-text">The Cohort Flywheel</div></div>
+      <div class="toc-item"><div class="toc-num">08</div><div class="toc-text">Facilitator Profile</div></div>
+      <div class="toc-item"><div class="toc-num">09</div><div class="toc-text">Launch Readiness</div></div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: OVERVIEW -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <div class="section-title">Program Overview &amp; Philosophy</div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-box"><div class="stat-num">4</div><div class="stat-label">Weeks</div></div>
+      <div class="stat-box"><div class="stat-num">16</div><div class="stat-label">Live Hours</div></div>
+      <div class="stat-box"><div class="stat-num">8</div><div class="stat-label">Sessions</div></div>
+      <div class="stat-box"><div class="stat-num">85%+</div><div class="stat-label">Build Time</div></div>
+    </div>
+
+    <p>The AI Operator Cohort is a single, focused program designed to take marketing professionals from passive AI users to confident system builders — in four weeks. The curriculum is intentionally scoped for first cohorts: one program, one audience, one clear outcome.</p>
+
+    <div class="callout callout-blue">
+      <p><strong>Design principle:</strong> Keep it simple for the first cohorts until we figure out what new classes might look like. One program. Learn from it. Evolve from there.</p>
+    </div>
+
+    <h3>The Problem This Solves</h3>
+    <p>Most professionals are still copy-pasting into ChatGPT — no context, no system, no structure. Every session starts blank. Output is generic. Nothing compounds. Teams pulling ahead aren't replacing people — they're building fluent operators. The AI isn't the differentiator. The co-work skill is.</p>
+
+    <h3>The Outcome</h3>
+    <p>After 4 weeks, participants go from reactive AI users to system builders. Their AI works while they sleep, remembers their brand, and ships work they used to outsource. They leave with a deployed stack, a live HTML artifact, and a certificate — not a certificate of attendance, but proof they built something real.</p>
+
+    <h3>Teaching Philosophy</h3>
+    <p><strong>85%+ build time.</strong> Every session produces a working artifact. No theory without immediate application. The cohort inherits a pre-tested stack — every tool, template, and automation has been validated before session one. Participants build on what works, not what might work.</p>
+
+    <p>Each session also includes a short <strong>pre-session theory video (15–20 min)</strong> delivered before the live session, so live time is protected for building. Weekly <strong>office hours</strong> (last 30 min of Session 2 and 4 each week) give participants unstructured build support.</p>
+  </div>
+
+  <!-- SECTION 2: CURRICULUM -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <div class="section-title">4-Week Curriculum</div>
+    </div>
+
+    <p>Each week consists of <strong>2 live sessions × 2 hours</strong>. Sessions 1 and 2 each week follow a consistent pattern: Session 1 introduces and builds; Session 2 extends and deploys — with office hours at the end.</p>
+
+    <div class="callout callout-green">
+      <p><strong>Arc:</strong> Week 1 — Foundation &amp; Workspaces → Week 2 — Agents &amp; Prompts → Week 3 — Automations &amp; Knowledge → Week 4 — Full Stack &amp; Show &amp; Tell</p>
+    </div>
+
+    <div class="week-grid">
+      <div class="week-card">
+        <div class="wc-num">Week 01 · Sessions 1–2</div>
+        <div class="wc-title">AI Landscape + 3 Workspaces + MCP Intro</div>
+        <ul class="wc-items">
+          <li>Pre-session theory video: AI landscape (15–20 min)</li>
+          <li>Claude vs ChatGPT vs Gemini vs Perplexity — honest comparison module</li>
+          <li>3 specialized workspaces: Research · Content · Operations</li>
+          <li>Claude Co-Work Projects deep training (architecture, naming, routing)</li>
+          <li>MCP overview: connectors, marketplace, when to use each</li>
+          <li>Operator vocabulary glossary — Artifacts, Skills, Projects, Agents, Stack</li>
+          <li>Workspace model expandable: 3 → 4–5 for complex roles</li>
+        </ul>
+        <div class="wc-deliverable">🎯 3 connected workspaces + project architecture documented</div>
+      </div>
+      <div class="week-card">
+        <div class="wc-num">Week 02 · Sessions 3–4</div>
+        <div class="wc-title">RCTFX Mastery + First Agent</div>
+        <ul class="wc-items">
+          <li>Pre-session theory video: RCTFX anatomy (15–20 min)</li>
+          <li>RCTFX in production: system instructions, agent briefs, automation triggers</li>
+          <li>5–10 production-grade system instruction templates</li>
+          <li>20+ prompt library organized by category</li>
+          <li>Deploy first agent for a real, non-fictional recurring task</li>
+          <li>Marketing agent catalog: 5 roles × time saved per week</li>
+          <li>Office hours: last 30 min (open build support, free-form)</li>
+        </ul>
+        <div class="wc-deliverable">🎯 20+ prompt library + 1 live agent deployed</div>
+        <div><span class="new-badge">+ Office Hours</span></div>
+      </div>
+      <div class="week-card">
+        <div class="wc-num">Week 03 · Sessions 5–6</div>
+        <div class="wc-title">Automation + Knowledge Base + MCP Deep Dive</div>
+        <ul class="wc-items">
+          <li>Pre-session theory video: automation types (15–20 min)</li>
+          <li>4 automation types: Scheduled, Skills, Artifacts, Multi-step</li>
+          <li>Deploy 2 automations: daily briefing + weekly digest</li>
+          <li>Knowledge base architecture: brand + client + performance data</li>
+          <li>2 KBs loaded, tested, and verified on-brand</li>
+          <li>MCP dedicated module: Slack, Notion, Figma, Higgsfield + creative tools</li>
+          <li>Artifacts as live refreshing dashboards</li>
+          <li>Governance rules: what to never load into a KB</li>
+        </ul>
+        <div class="wc-deliverable">🎯 2 automations + 2 KBs + MCP stack live</div>
+        <div><span class="new-badge">+ MCP Module</span></div>
+      </div>
+      <div class="week-card">
+        <div class="wc-num">Week 04 · Sessions 7–8</div>
+        <div class="wc-title">Stack Assembly + Claude Code Intro + Show &amp; Tell</div>
+        <ul class="wc-items">
+          <li>Full 6-layer stack assembled with final checklist review</li>
+          <li>Build front-end HTML artifact live with Claude Co-Work</li>
+          <li>Deploy artifact to live URL (GitHub Pages or equivalent)</li>
+          <li>Claude Code 30–60 min intro: capabilities, when to use, what's next</li>
+          <li>3 governance rules written and documented</li>
+          <li>3-minute Show &amp; Tell live demo rehearsal + delivery</li>
+          <li>Complete operational playbook finalized</li>
+          <li>Certificate issued — AI Operator · Talent Scout</li>
+        </ul>
+        <div class="wc-deliverable">🎯 Full Stack + HTML artifact + Certificate</div>
+        <div><span class="new-badge">+ Front-End Build</span> <span class="new-badge">+ Claude Code Intro</span></div>
+      </div>
+    </div>
+
+    <h3>The 6-Layer Operator Stack</h3>
+    <p>The curriculum assembles a complete 6-layer stack over 4 weeks. Each layer builds on the previous, so participants arrive at Week 4 with a fully integrated system to assemble — not a collection of disconnected tools.</p>
+    <ol>
+      <li><strong>Workspaces</strong> — Specialized Claude Co-Work environments by function (Research, Content, Operations)</li>
+      <li><strong>Agents</strong> — Configured AI team members with roles, context, and recurring tasks</li>
+      <li><strong>Automations</strong> — Scheduled and triggered workflows that run without manual input</li>
+      <li><strong>Knowledge Bases</strong> — Brand, client, and performance data loaded and verified on-brand</li>
+      <li><strong>MCP Connectors</strong> — Live connections to Slack, Notion, Figma, Higgsfield, and Google Workspace</li>
+      <li><strong>HTML Artifacts</strong> — Deployable front-end reports, dashboards, and briefs built with Claude</li>
+    </ol>
+  </div>
+
+  <!-- SECTION 3: DELIVERABLES -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <div class="section-title">Participant Deliverables</div>
+    </div>
+
+    <p>Every participant leaves with a deployed stack — not just notes or slides. These are real, working artifacts built during live sessions.</p>
+
+    <div class="deliverables-grid">
+      <div class="dg-item"><span class="dg-check">✓</span><span class="dg-text"><strong>3–5 specialized Claude Co-Work workspaces</strong> — configured and named by function</span></div>
+      <div class="dg-item"><span class="dg-check">✓</span><span class="dg-text"><strong>20+ production-grade RCTFX prompts</strong> — documented and organized by category</span></div>
+      <div class="dg-item"><span class="dg-check">✓</span><span class="dg-text"><strong>1 marketing agent deployed</strong> — running on real data for a real recurring task</span></div>
+      <div class="dg-item"><span class="dg-check">✓</span><span class="dg-text"><strong>2+ active automations</strong> — daily briefing + weekly digest, live and running</span></div>
+      <div class="dg-item"><span class="dg-check">✓</span><span class="dg-text"><strong>2 knowledge bases</strong> — brand + client, loaded, tested, and on-brand verified</span></div>
+      <div class="dg-item"><span class="dg-check">✓</span><span class="dg-text"><strong>Front-end HTML artifact</strong> — built live in Week 4, deployed to a public URL</span></div>
+      <div class="dg-item"><span class="dg-check">✓</span><span class="dg-text"><strong>Complete governance playbook</strong> — 3 documented rules + stack map</span></div>
+      <div class="dg-item"><span class="dg-check">✓</span><span class="dg-text"><strong>AI Operator Certificate</strong> — Talent Scout, issued at Show &amp; Tell</span></div>
+    </div>
+
+    <div class="callout callout-green">
+      <p><strong>The HTML artifact</strong> is the signature deliverable. Participants build a polished front-end document — a campaign dashboard, competitive intelligence brief, or client proposal — entirely with Claude Co-Work's artifact system. No code knowledge required. Deployed to a live URL they can share with anyone.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 4: STACK -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <div class="section-title">The Curated Stack</div>
+    </div>
+
+    <p>Participants don't discover the stack during the cohort — they inherit what already works. Every tool, connector, template, and skill has been validated before session one.</p>
+
+    <table class="stack-table">
+      <thead>
+        <tr><th>Tool / Layer</th><th>Role</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Claude (Anthropic)</strong> — Sonnet · Haiku · Opus</td><td>Core intelligence layer for all cohort work</td><td><span class="badge badge-core">Core</span></td></tr>
+        <tr><td><strong>Claude Co-Work</strong></td><td>Primary operating environment — workspaces, projects, artifacts, skills, automations</td><td><span class="badge badge-core">Primary</span></td></tr>
+        <tr><td><strong>Claude Code</strong></td><td>Week 4 intro — the power layer when participants are ready to go deeper</td><td><span class="badge badge-week4">Week 4 Intro</span></td></tr>
+        <tr><td><strong>Slack · Notion · Google Workspace · Figma</strong></td><td>Verified MCP connectors — no-code setup, no surprises</td><td><span class="badge badge-mcp">Proven MCPs</span></td></tr>
+        <tr><td><strong>Higgsfield + Creative MCPs</strong></td><td>AI video and creative pipeline tools — integrated into marketing workflow</td><td><span class="badge badge-mcp">MCP Module</span></td></tr>
+      </tbody>
+    </table>
+
+    <h3>Pre-Built Skill Library (8 proven skills)</h3>
+    <div class="chip-grid">
+      <div class="chip">📝 Content Repurposer</div>
+      <div class="chip">🔍 Competitive Intel</div>
+      <div class="chip">📊 Report Generator</div>
+      <div class="chip">🎯 Brief Builder</div>
+      <div class="chip">📅 Weekly Digest</div>
+      <div class="chip">🤝 Meeting → Actions</div>
+      <div class="chip">✍️ Brand Voice Check</div>
+      <div class="chip">📣 Campaign Launcher</div>
+    </div>
+
+    <h3>RCTFX Template Library (20+ templates)</h3>
+    <div class="chip-grid">
+      <div class="chip chip-green">📋 System Instructions ×3</div>
+      <div class="chip chip-green">🤖 Agent Briefs ×4</div>
+      <div class="chip chip-green">⚙️ Automation Triggers ×4</div>
+      <div class="chip chip-green">📈 Analysis ×5</div>
+      <div class="chip chip-green">📣 Content ×6</div>
+    </div>
+    <p>All RCTFX templates are production-grade — verified and used in real marketing contexts before being included in the cohort library.</p>
+  </div>
+
+  <!-- SECTION 5: SHOW & TELL -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">05</div>
+      <div class="section-title">Show &amp; Tell — Week 4 Demo</div>
+    </div>
+
+    <p>Every cohort ends with a live public demo event in Week 4. It's not a graduation ceremony — it's a structured sales event disguised as a showcase. Open to clients, prospects, and anyone curious about what AI operators can build.</p>
+
+    <h3>The 3-Minute Demo Format</h3>
+    <div class="snt-phases">
+      <div class="snt-phase">
+        <div class="snt-time">0:00 – 1:00</div>
+        <div>
+          <div class="snt-phase-title">What You Built</div>
+          <div class="snt-phase-desc">Open Claude Co-Work live. Show workspaces, knowledge bases, and connected tools. Name the agent. One-sentence stack map. Open the live HTML artifact URL.</div>
+        </div>
+      </div>
+      <div class="snt-phase">
+        <div class="snt-time">1:00 – 2:00</div>
+        <div>
+          <div class="snt-phase-title">Live Demo</div>
+          <div class="snt-phase-desc">Run the agent or automation in real time — real input, real output. Let it execute. Silence is powerful. The audience watches it happen.</div>
+        </div>
+      </div>
+      <div class="snt-phase">
+        <div class="snt-time">2:00 – 3:00</div>
+        <div>
+          <div class="snt-phase-title">The Number That Matters</div>
+          <div class="snt-phase-desc">State the exact before/after. Name the task and the time it used to take. Show side-by-side. Close with: "This is just one piece of my stack."</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout callout-gold">
+      <p><em>"A live demo that stumbles and recovers is more powerful than a perfect screenshot. Mastery of the system — not perfection of the output."</em></p>
+    </div>
+  </div>
+
+  <!-- SECTION 6: WHO IT'S FOR -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">06</div>
+      <div class="section-title">Who This Is For</div>
+    </div>
+
+    <p>The cohort is designed for marketing professionals and team leaders ready to move from passive AI use to active system building. No prior AI experience required for the first cohorts — comfort with basic digital tools (email, Google Workspace, Slack) is enough to start.</p>
+
+    <table class="who-table">
+      <thead>
+        <tr><th>Profile</th><th>Why This Fits</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Content, Brand &amp; Growth Marketers</strong></td><td>Build automated content pipelines, brand voice agents, and performance dashboards that run without you.</td></tr>
+        <tr><td><strong>Marketing Consultants &amp; Agency Teams</strong></td><td>Deliver more to clients with a fraction of the manual effort. Add AI operator services to your offering.</td></tr>
+        <tr><td><strong>Entrepreneurs &amp; Small Teams</strong></td><td>Compete like a team of ten. Build a marketing stack that scales without headcount.</td></tr>
+        <tr><td><strong>Web &amp; Front-End Professionals</strong></td><td>Add AI artifact generation to your stack. Build for clients faster, bill for what AI helps you ship.</td></tr>
+        <tr><td><strong>Operations &amp; Sales Teams</strong></td><td>Automate the repetitive, capture institutional knowledge, and free up time for the work that matters.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-blue">
+      <p><strong>Prerequisites:</strong> No prior AI experience required. Comfort with basic digital tools is enough. The cohort is designed to be accessible from session one — no setup complexity, no steep learning curve on day one.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 7: FLYWHEEL -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">07</div>
+      <div class="section-title">The Cohort Flywheel</div>
+    </div>
+
+    <p>The Show &amp; Tell event at the end of Week 4 is designed to generate the marketing material for the next cohort. Every cohort produces footage, testimonials, live artifacts, and social proof that reduces the cost of filling the next one.</p>
+
+    <div class="flywheel-row">
+      <div class="fw-card">
+        <span class="fw-emoji">🏗️</span>
+        <div class="fw-title">Build</div>
+        <div class="fw-desc">Participants build real, deployed systems over 4 weeks</div>
+      </div>
+      <div class="fw-card">
+        <span class="fw-emoji">🎤</span>
+        <div class="fw-title">Demo</div>
+        <div class="fw-desc">Show &amp; Tell — live public demo, open to prospects</div>
+      </div>
+      <div class="fw-card">
+        <span class="fw-emoji">📣</span>
+        <div class="fw-title">Market</div>
+        <div class="fw-desc">Footage, testimonials, and artifacts fuel next cohort marketing</div>
+      </div>
+      <div class="fw-card">
+        <span class="fw-emoji">🔄</span>
+        <div class="fw-title">Enroll</div>
+        <div class="fw-desc">Prospects who watched convert into the next cohort</div>
+      </div>
+    </div>
+
+    <p>Each audience segment at Show &amp; Tell serves a purpose: <strong>participants</strong> sharpen their build under social pressure; <strong>clients watching their team</strong> see undeniable ROI; <strong>prospects</strong> see exactly what they're missing; and <strong>Talent Scout</strong> collects the footage and case studies to market Cohort 2.</p>
+  </div>
+
+  <!-- SECTION 8: FACILITATOR -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">08</div>
+      <div class="section-title">Facilitator Profile</div>
+    </div>
+
+    <h3>Felipe Salgado</h3>
+    <p><strong>Engineer · AI Strategist · Operator</strong></p>
+    <ul>
+      <li><strong>ETHDenver mentor</strong> — blockchain + AI education, international community</li>
+      <li><strong>UNICEF Chile AI advisor</strong> — enterprise AI strategy and implementation</li>
+      <li><strong>Eight Academy founder</strong> — AI curriculum design and delivery in LATAM</li>
+      <li><strong>Corporate AI stack builder</strong> — deployed automation stacks for marketing and sales teams in Ecuador</li>
+    </ul>
+
+    <p>Felipe teaches from production stacks he built himself — the same tools, templates, and automations participants deploy during the cohort. No theory that hasn't been tested. No stack that hasn't shipped something real.</p>
+
+    <div class="callout callout-blue">
+      <p><strong>Partnership model:</strong> Talent Scout brings the platform, client base, and brand. Felipe Salgado delivers the instruction and the curriculum. The cohort flywheel benefits both — every Show &amp; Tell is a marketing event for both the program and the facilitator's track record.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 9: LAUNCH READINESS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">09</div>
+      <div class="section-title">Launch Readiness</div>
+    </div>
+
+    <div class="deliverables-grid">
+      <div class="dg-item"><span class="dg-check">✓</span><span class="dg-text"><strong>Curriculum locked</strong> — 4 weeks, 8 sessions, all content designed</span></div>
+      <div class="dg-item"><span class="dg-check">✓</span><span class="dg-text"><strong>Instructor ready</strong> — Felipe Salgado confirmed as facilitator</span></div>
+      <div class="dg-item"><span class="dg-check">✓</span><span class="dg-text"><strong>Stack proven</strong> — all tools, skills, and RCTFX templates validated</span></div>
+      <div class="dg-item"><span class="dg-check">✓</span><span class="dg-text"><strong>First cohort focus</strong> — single program, no complexity, simple enrollment</span></div>
+      <div class="dg-item"><span class="dg-check">✓</span><span class="dg-text"><strong>Pre-session videos planned</strong> — 4 theory modules (15–20 min each)</span></div>
+      <div class="dg-item"><span class="dg-check">✓</span><span class="dg-text"><strong>Office hours included</strong> — open build support in each week's second session</span></div>
+    </div>
+
+    <h3>What's Needed to Launch</h3>
+    <ul>
+      <li>Enrollment page / landing page — Talent Scout to confirm platform</li>
+      <li>Cohort size — recommended 8–15 participants for Cohort 1</li>
+      <li>Session scheduling — 2 sessions/week, 2 hours each, consistent time slot</li>
+      <li>Pre-session video recording — 4 videos (15–20 min each), Felipe to record</li>
+      <li>Participant onboarding — Claude Co-Work access + workspace setup guide</li>
+    </ul>
+
+    <div class="callout callout-green">
+      <p><strong>Note on future cohorts:</strong> This program is intentionally scoped to one course for the first run. Once Cohort 1 completes and Show &amp; Tell produces real artifacts and testimonials, decisions about additional programs, advanced tracks, or expanded curricula will be informed by actual participant outcomes — not assumptions.</p>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="doc-footer">
+    <div>Talent Scout × Claude Co-Work · AI Operator Cohort · Cohort 1 Program Document</div>
+    <div>Facilitator: Felipe Salgado</div>
+  </div>
+
+</div>
+</body>
+</html>
